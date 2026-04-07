@@ -238,7 +238,6 @@ class FFmpegDALIPipeline(BasePipeline):
             frames = fn.experimental.readers.video(
                 filenames=[mp4_path],
                 sequence_length=B,
-                normalized=False,
                 random_shuffle=False,
                 image_type=dali.types.RGB,
                 name="Reader",
