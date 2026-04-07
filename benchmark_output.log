@@ -1,4 +1,4 @@
-Starting job on x1000c0s7b0n0 at Wed Apr  8 00:48:59 +08 2026
+Starting job on x1000c2s1b0n0 at Wed Apr  8 01:00:55 +08 2026
 GPU:     NVIDIA A100-SXM4-40GB, 40960 MiB, 550.163.01
 Python:  Python 3.10.20
 PyTorch: 2.6.0+cu124
@@ -12,43 +12,63 @@ Video Inference Pipeline Benchmark
   Input         : (640, 640)
   Device        : cuda:0
   FP16          : True
-  Pipelines     : ['pynvvideocodec', 'pynv_cvcuda']
+  Pipelines     : ['opencv_cpu', 'ffmpeg_dali', 'pynvvideocodec', 'pynv_cvcuda']
+
+────────────────────────────────────────────────────────────
+  Pipeline: OpenCV CPU
+────────────────────────────────────────────────────────────
+    decoded 1024 frames in 1.752s
+  [setup] OK
+  [warmup] 3 runs... done
+  [bench]  10 runs... 1 2 3 4 5 6 7 8 9 10 
+  [teardown] OK
+
+────────────────────────────────────────────────────────────
+  Pipeline: FFmpeg + DALI
+────────────────────────────────────────────────────────────
+    decoded 64 batches in 1.644s
+  [setup] OK
+  [warmup] 3 runs... done
+  [bench]  10 runs... 1 2 3 4 5 6 7 8 9 10 
+  [teardown] OK
 
 ────────────────────────────────────────────────────────────
   Pipeline: PyNvVideoCodec 2.1
 ────────────────────────────────────────────────────────────
-    decoded 1024 frames in 1.635s
+    decoded 1024 frames in 1.497s
   [setup] OK
-  [warmup] 2 runs... done
-  [bench]  5 runs... 1 2 3 4 5 
+  [warmup] 3 runs... done
+  [bench]  10 runs... 1 2 3 4 5 6 7 8 9 10 
   [teardown] OK
 
 ────────────────────────────────────────────────────────────
   Pipeline: PyNvVideoCodec + CV-CUDA
 ────────────────────────────────────────────────────────────
-    decoded 1024 frames in 1.438s
+    decoded 1024 frames in 1.444s
   [setup] OK
-  [warmup] 2 runs... done
-  [bench]  5 runs... 1 2 3 4 5 
+  [warmup] 3 runs... done
+  [bench]  10 runs... 1 2 3 4 5 6 7 8 9 10 
   [teardown] OK
 
-  Results saved → results/batch_sweep_16.csv
+  Results saved → results/full_sweep_16.csv
 
 ────────────────────────────────────────────────────────────
   Pipeline                         Avg FPS  Avg Total (s)   Frames
 ────────────────────────────────────────────────────────────
-  PyNvVideoCodec 2.1                 377.3          2.714     1024
-  PyNvVideoCodec + CV-CUDA           451.7          2.267     1024
+  OpenCV CPU                         140.2          7.303     1024
+  FFmpeg + DALI                      382.8          2.675     1024
+  PyNvVideoCodec 2.1                 405.0          2.528     1024
+  PyNvVideoCodec + CV-CUDA           451.1          2.270     1024
 ────────────────────────────────────────────────────────────
 
 ────────────────────────────────────────────────────────────
-  Generating charts from results/batch_sweep_16.csv
+  Generating charts from results/full_sweep_16.csv
 ────────────────────────────────────────────────────────────
   Chart saved → /home/users/ntu/yash012/video-inference-benchmark/charts/01_fps_comparison.png
   Chart saved → /home/users/ntu/yash012/video-inference-benchmark/charts/02_stage_breakdown.png
   Chart saved → /home/users/ntu/yash012/video-inference-benchmark/charts/03_speedup_waterfall.png
-  Chart saved → /home/users/ntu/yash012/video-inference-benchmark/charts/04_latency_distribution.png
-  Chart saved → /home/users/ntu/yash012/video-inference-benchmark/charts/05_decode_analysis.png
+  Chart saved → /home/users/ntu/yash012/video-inference-benchmark/charts/04_batch_sweep.png
+  Chart saved → /home/users/ntu/yash012/video-inference-benchmark/charts/05_preprocess_comparison.png
 
   All charts saved to /home/users/ntu/yash012/video-inference-benchmark/charts
 
@@ -60,43 +80,63 @@ Video Inference Pipeline Benchmark
   Input         : (640, 640)
   Device        : cuda:0
   FP16          : True
-  Pipelines     : ['pynvvideocodec', 'pynv_cvcuda']
+  Pipelines     : ['opencv_cpu', 'ffmpeg_dali', 'pynvvideocodec', 'pynv_cvcuda']
+
+────────────────────────────────────────────────────────────
+  Pipeline: OpenCV CPU
+────────────────────────────────────────────────────────────
+    decoded 1024 frames in 1.622s
+  [setup] OK
+  [warmup] 3 runs... done
+  [bench]  10 runs... 1 2 3 4 5 6 7 8 9 10 
+  [teardown] OK
+
+────────────────────────────────────────────────────────────
+  Pipeline: FFmpeg + DALI
+────────────────────────────────────────────────────────────
+    decoded 32 batches in 1.622s
+  [setup] OK
+  [warmup] 3 runs... done
+  [bench]  10 runs... 1 2 3 4 5 6 7 8 9 10 
+  [teardown] OK
 
 ────────────────────────────────────────────────────────────
   Pipeline: PyNvVideoCodec 2.1
 ────────────────────────────────────────────────────────────
-    decoded 1024 frames in 1.607s
+    decoded 1024 frames in 1.444s
   [setup] OK
-  [warmup] 2 runs... done
-  [bench]  5 runs... 1 2 3 4 5 
+  [warmup] 3 runs... done
+  [bench]  10 runs... 1 2 3 4 5 6 7 8 9 10 
   [teardown] OK
 
 ────────────────────────────────────────────────────────────
   Pipeline: PyNvVideoCodec + CV-CUDA
 ────────────────────────────────────────────────────────────
-    decoded 1024 frames in 1.576s
+    decoded 1024 frames in 1.435s
   [setup] OK
-  [warmup] 2 runs... done
-  [bench]  5 runs... 1 2 3 4 5 
+  [warmup] 3 runs... done
+  [bench]  10 runs... 1 2 3 4 5 6 7 8 9 10 
   [teardown] OK
 
-  Results saved → results/batch_sweep_32.csv
+  Results saved → results/full_sweep_32.csv
 
 ────────────────────────────────────────────────────────────
   Pipeline                         Avg FPS  Avg Total (s)   Frames
 ────────────────────────────────────────────────────────────
-  PyNvVideoCodec 2.1                 380.2          2.693     1024
-  PyNvVideoCodec + CV-CUDA           419.2          2.443     1024
+  OpenCV CPU                         141.9          7.219     1024
+  FFmpeg + DALI                      387.7          2.642     1024
+  PyNvVideoCodec 2.1                 414.0          2.473     1024
+  PyNvVideoCodec + CV-CUDA           455.0          2.250     1024
 ────────────────────────────────────────────────────────────
 
 ────────────────────────────────────────────────────────────
-  Generating charts from results/batch_sweep_32.csv
+  Generating charts from results/full_sweep_32.csv
 ────────────────────────────────────────────────────────────
   Chart saved → /home/users/ntu/yash012/video-inference-benchmark/charts/01_fps_comparison.png
   Chart saved → /home/users/ntu/yash012/video-inference-benchmark/charts/02_stage_breakdown.png
   Chart saved → /home/users/ntu/yash012/video-inference-benchmark/charts/03_speedup_waterfall.png
-  Chart saved → /home/users/ntu/yash012/video-inference-benchmark/charts/04_latency_distribution.png
-  Chart saved → /home/users/ntu/yash012/video-inference-benchmark/charts/05_decode_analysis.png
+  Chart saved → /home/users/ntu/yash012/video-inference-benchmark/charts/04_batch_sweep.png
+  Chart saved → /home/users/ntu/yash012/video-inference-benchmark/charts/05_preprocess_comparison.png
 
   All charts saved to /home/users/ntu/yash012/video-inference-benchmark/charts
 
@@ -108,43 +148,63 @@ Video Inference Pipeline Benchmark
   Input         : (640, 640)
   Device        : cuda:0
   FP16          : True
-  Pipelines     : ['pynvvideocodec', 'pynv_cvcuda']
+  Pipelines     : ['opencv_cpu', 'ffmpeg_dali', 'pynvvideocodec', 'pynv_cvcuda']
+
+────────────────────────────────────────────────────────────
+  Pipeline: OpenCV CPU
+────────────────────────────────────────────────────────────
+    decoded 1024 frames in 1.645s
+  [setup] OK
+  [warmup] 3 runs... done
+  [bench]  10 runs... 1 2 3 4 5 6 7 8 9 10 
+  [teardown] OK
+
+────────────────────────────────────────────────────────────
+  Pipeline: FFmpeg + DALI
+────────────────────────────────────────────────────────────
+    decoded 16 batches in 1.634s
+  [setup] OK
+  [warmup] 3 runs... done
+  [bench]  10 runs... 1 2 3 4 5 6 7 8 9 10 
+  [teardown] OK
 
 ────────────────────────────────────────────────────────────
   Pipeline: PyNvVideoCodec 2.1
 ────────────────────────────────────────────────────────────
-    decoded 1024 frames in 1.846s
+    decoded 1024 frames in 1.432s
   [setup] OK
-  [warmup] 2 runs... done
-  [bench]  5 runs... 1 2 3 4 5 
+  [warmup] 3 runs... done
+  [bench]  10 runs... 1 2 3 4 5 6 7 8 9 10 
   [teardown] OK
 
 ────────────────────────────────────────────────────────────
   Pipeline: PyNvVideoCodec + CV-CUDA
 ────────────────────────────────────────────────────────────
-    decoded 1024 frames in 1.424s
+    decoded 1024 frames in 1.429s
   [setup] OK
-  [warmup] 2 runs... done
-  [bench]  5 runs... 1 2 3 4 5 
+  [warmup] 3 runs... done
+  [bench]  10 runs... 1 2 3 4 5 6 7 8 9 10 
   [teardown] OK
 
-  Results saved → results/batch_sweep_64.csv
+  Results saved → results/full_sweep_64.csv
 
 ────────────────────────────────────────────────────────────
   Pipeline                         Avg FPS  Avg Total (s)   Frames
 ────────────────────────────────────────────────────────────
-  PyNvVideoCodec 2.1                 354.8          2.886     1024
-  PyNvVideoCodec + CV-CUDA           453.3          2.259     1024
+  OpenCV CPU                         144.4          7.092     1024
+  FFmpeg + DALI                      391.3          2.617     1024
+  PyNvVideoCodec 2.1                 427.3          2.397     1024
+  PyNvVideoCodec + CV-CUDA           459.3          2.229     1024
 ────────────────────────────────────────────────────────────
 
 ────────────────────────────────────────────────────────────
-  Generating charts from results/batch_sweep_64.csv
+  Generating charts from results/full_sweep_64.csv
 ────────────────────────────────────────────────────────────
   Chart saved → /home/users/ntu/yash012/video-inference-benchmark/charts/01_fps_comparison.png
   Chart saved → /home/users/ntu/yash012/video-inference-benchmark/charts/02_stage_breakdown.png
   Chart saved → /home/users/ntu/yash012/video-inference-benchmark/charts/03_speedup_waterfall.png
-  Chart saved → /home/users/ntu/yash012/video-inference-benchmark/charts/04_latency_distribution.png
-  Chart saved → /home/users/ntu/yash012/video-inference-benchmark/charts/05_decode_analysis.png
+  Chart saved → /home/users/ntu/yash012/video-inference-benchmark/charts/04_batch_sweep.png
+  Chart saved → /home/users/ntu/yash012/video-inference-benchmark/charts/05_preprocess_comparison.png
 
   All charts saved to /home/users/ntu/yash012/video-inference-benchmark/charts
 
@@ -156,26 +216,44 @@ Video Inference Pipeline Benchmark
   Input         : (640, 640)
   Device        : cuda:0
   FP16          : True
-  Pipelines     : ['pynvvideocodec', 'pynv_cvcuda']
+  Pipelines     : ['opencv_cpu', 'ffmpeg_dali', 'pynvvideocodec', 'pynv_cvcuda']
+
+────────────────────────────────────────────────────────────
+  Pipeline: OpenCV CPU
+────────────────────────────────────────────────────────────
+    decoded 1024 frames in 1.707s
+  [setup] OK
+  [warmup] 3 runs... done
+  [bench]  10 runs... 1 2 3 4 5 6 7 8 9 10 
+  [teardown] OK
+
+────────────────────────────────────────────────────────────
+  Pipeline: FFmpeg + DALI
+────────────────────────────────────────────────────────────
+    decoded 8 batches in 1.608s
+  [setup] OK
+  [warmup] 3 runs... done
+  [bench]  10 runs... 1 2 3 4 5 6 7 8 9 10 
+  [teardown] OK
 
 ────────────────────────────────────────────────────────────
   Pipeline: PyNvVideoCodec 2.1
 ────────────────────────────────────────────────────────────
-    decoded 1024 frames in 1.498s
+    decoded 1024 frames in 1.469s
   [setup] OK
-  [warmup] 2 runs... done
-  [bench]  5 runs... 1 2 3 4 5 
+  [warmup] 3 runs... done
+  [bench]  10 runs... 1 2 3 4 5 6 7 8 9 10 
   [teardown] OK
 
 ────────────────────────────────────────────────────────────
   Pipeline: PyNvVideoCodec + CV-CUDA
 ────────────────────────────────────────────────────────────
-    decoded 1024 frames in 1.424s
+    decoded 1024 frames in 1.438s
   [setup] OK
-  [warmup] 2 runs... 
+  [warmup] 3 runs... 
   [warmup] FAILED: NVCV_ERROR_INVALID_ARGUMENT: Input or output tensors are too large
 done
-  [bench]  5 runs... 
+  [bench]  10 runs... 
   [bench] run 0 FAILED: NVCV_ERROR_INVALID_ARGUMENT: Input or output tensors are too large
 
   [bench] run 1 FAILED: NVCV_ERROR_INVALID_ARGUMENT: Input or output tensors are too large
@@ -186,24 +264,36 @@ done
 
   [bench] run 4 FAILED: NVCV_ERROR_INVALID_ARGUMENT: Input or output tensors are too large
 
+  [bench] run 5 FAILED: NVCV_ERROR_INVALID_ARGUMENT: Input or output tensors are too large
+
+  [bench] run 6 FAILED: NVCV_ERROR_INVALID_ARGUMENT: Input or output tensors are too large
+
+  [bench] run 7 FAILED: NVCV_ERROR_INVALID_ARGUMENT: Input or output tensors are too large
+
+  [bench] run 8 FAILED: NVCV_ERROR_INVALID_ARGUMENT: Input or output tensors are too large
+
+  [bench] run 9 FAILED: NVCV_ERROR_INVALID_ARGUMENT: Input or output tensors are too large
+
   [teardown] OK
 
-  Results saved → results/batch_sweep_128.csv
+  Results saved → results/full_sweep_128.csv
 
 ────────────────────────────────────────────────────────────
   Pipeline                         Avg FPS  Avg Total (s)   Frames
 ────────────────────────────────────────────────────────────
-  PyNvVideoCodec 2.1                 404.1          2.534     1024
+  OpenCV CPU                         148.8          6.881     1024
+  FFmpeg + DALI                      396.7          2.581     1024
+  PyNvVideoCodec 2.1                 420.4          2.436     1024
 ────────────────────────────────────────────────────────────
 
 ────────────────────────────────────────────────────────────
-  Generating charts from results/batch_sweep_128.csv
+  Generating charts from results/full_sweep_128.csv
 ────────────────────────────────────────────────────────────
   Chart saved → /home/users/ntu/yash012/video-inference-benchmark/charts/01_fps_comparison.png
   Chart saved → /home/users/ntu/yash012/video-inference-benchmark/charts/02_stage_breakdown.png
   Chart saved → /home/users/ntu/yash012/video-inference-benchmark/charts/03_speedup_waterfall.png
-  Chart saved → /home/users/ntu/yash012/video-inference-benchmark/charts/04_latency_distribution.png
-  Chart saved → /home/users/ntu/yash012/video-inference-benchmark/charts/05_decode_analysis.png
+  Chart saved → /home/users/ntu/yash012/video-inference-benchmark/charts/04_batch_sweep.png
+  Chart saved → /home/users/ntu/yash012/video-inference-benchmark/charts/05_preprocess_comparison.png
 
   All charts saved to /home/users/ntu/yash012/video-inference-benchmark/charts
-Job completed at Wed Apr  8 00:51:21 +08 2026
+Job completed at Wed Apr  8 01:09:52 +08 2026

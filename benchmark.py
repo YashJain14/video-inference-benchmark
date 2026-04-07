@@ -609,7 +609,15 @@ def main():
     print(f"{'─'*60}")
 
     from charts import generate_all_charts
-    generate_all_charts(Path(args.out_csv), CHARTS_DIR)
+    # Auto-detect batch sweep CSVs if they exist
+    batch_csvs = {}
+    for b in [16, 32, 64, 128]:
+        for pattern in [f"full_sweep_{b}.csv", f"batch_sweep_{b}.csv"]:
+            p = RESULTS_DIR / pattern
+            if p.exists():
+                batch_csvs[b] = p
+                break
+    generate_all_charts(Path(args.out_csv), CHARTS_DIR, batch_csvs or None)
 
 if __name__ == "__main__":
     main()
