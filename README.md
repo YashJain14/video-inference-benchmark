@@ -9,14 +9,26 @@ NVIDIA data centre GPUs.
 
 ---
 
-## Results (A100-SXM4-40GB, YOLOv8n, 512 frames, batch 16)
+## Results (A100-SXM4-40GB, YOLOv8n, 1024 frames, batch 16)
 
 | Pipeline | Avg FPS | Total (s) | Decode (s) | Preprocess (s) | Inference (s) | Speedup |
 |---|---|---|---|---|---|---|
-| OpenCV CPU | 140 | 3.66 | 0.91 | 1.27 | 1.47 | 1× |
-| FFmpeg + DALI | 379 | 1.35 | 0.90 | 0.054 | 0.386 | **2.7×** |
-| PyNvVideoCodec 2.1 | 431 | 1.19 | 0.74 | 0.054 | 0.390 | **3.1×** |
-| PyNvVideoCodec + CV-CUDA | 414 | 1.24 | 0.82 | 0.043 | 0.367 | **2.9×** |
+| OpenCV CPU | 140 | 7.303 | 1.752 | 2.471 | 3.065 | 1× |
+| FFmpeg + DALI | 383 | 2.675 | 1.644 | 0.107 | 0.910 | **2.7×** |
+| PyNvVideoCodec 2.1 | 405 | 2.528 | 1.497 | 0.107 | 0.910 | **2.9×** |
+| PyNvVideoCodec + CV-CUDA | 451 | 2.270 | 1.444 | 0.086 | 0.728 | **3.2×** |
+
+### Batch sweep
+
+| Pipeline | B16 FPS | B32 FPS | B64 FPS | B128 FPS |
+|---|---|---|---|---|
+| OpenCV CPU | 140.2 | 141.9 | 144.4 | 148.8 |
+| FFmpeg + DALI | 382.8 | 387.7 | 391.3 | 396.7 |
+| PyNvVideoCodec 2.1 | 405.0 | 414.0 | 427.3 | 420.4 |
+| PyNvVideoCodec + CV-CUDA | 451.1 | 455.0 | 459.3 | ❌ crash |
+
+> CV-CUDA fails at batch 128 with `NVCV_ERROR_INVALID_ARGUMENT: Input or output tensors are too large`.
+> PyNvVideoCodec peaks at batch 64 (427 FPS) and regresses slightly to 420 FPS at batch 128.
 
 ---
 
@@ -101,7 +113,7 @@ ffmpeg -i input.mov -c:v copy -c:a copy -movflags +faststart output.mp4
 python benchmark.py \
   --video  ToS.mp4 \
   --model  yolov8n.pt \
-  --total-frames 512 \
+  --total-frames 1024 \
   --batch  16 \
   --runs   10 \
   --warmup 3 \
@@ -116,6 +128,22 @@ python benchmark.py \
   --model yolov8n.pt \
   --pipelines ffmpeg_dali \
   --runs 3 --warmup 1
+```
+
+### Batch sweep (reproduces blog results)
+
+```bash
+for BATCH in 16 32 64 128; do
+  python benchmark.py \
+    --video ToS.mp4 \
+    --model yolov8n.pt \
+    --total-frames 1024 \
+    --batch $BATCH \
+    --runs 10 \
+    --warmup 3 \
+    --pipelines opencv_cpu ffmpeg_dali pynvvideocodec pynv_cvcuda \
+    --out-csv results/full_sweep_$BATCH.csv
+done
 ```
 
 ### Regenerate charts from an existing CSV
@@ -210,13 +238,25 @@ class MyPipeline(BasePipeline):
 
 ---
 
-## Known Limitations
+## Known Issues
 
-- **TorchCodec** requires `libnppicc.so.12` which is not available on my HPC clusters.
+- **CV-CUDA double normalization:** The `pynv_cvcuda` pipeline currently divides by
+  255 twice — once with `.float().div(255.0)` before `cvcuda.resize`, and again with
+  `cvcuda.convertto(..., scale=1.0/255.0)`. This means the model receives pixel values
+  in the range [0, 0.0039] instead of [0, 1]. The throughput numbers are still valid
+  (the GPU does the same amount of work regardless of pixel values), but detection
+  accuracy would be affected in production. Fix: remove the `.float().div(255.0)` and
+  pass uint8 data directly to CV-CUDA, or set `scale=1.0` in `convertto`.
+
+- **TorchCodec** requires `libnppicc.so.12` which is not available on some HPC clusters.
   Install with `conda install -c nvidia cuda-nppc` if needed.
-- **CV-CUDA** preprocessing advantage is more pronounced at batch sizes ≥ 64.
-  At batch 16 the gain over `torch.nn.functional.interpolate` is small (~20%).
+
+- **CV-CUDA** crashes at batch 128 with `NVCV_ERROR_INVALID_ARGUMENT: Input or output
+  tensors are too large`. Use PyNvVideoCodec with `torch.nn.functional.interpolate` at
+  batch sizes ≥ 128.
+
 - **DALI** requires MP4 with `faststart` flag. MOV containers cause slow seeking
   and dramatically inflated decode times.
+
 - All pipelines use sequential inference. Adding multi-stream CUDA parallelism
   and TensorRT FP16 are the next logical optimizations.
