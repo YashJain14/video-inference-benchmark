@@ -4,11 +4,6 @@
 *.mov
 *.mp4
 
-# Benchmark outputs
-results/
-charts/
-benchmark_output.log
-
 # Environment/Build
 __pycache__/
 *.pyc

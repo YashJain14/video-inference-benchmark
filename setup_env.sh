@@ -16,13 +16,13 @@ fi
 
 # 2. Create and activate a fresh conda environment
 ENV_NAME="video_benchmark_env"
-echo "Creating Conda environment: $ENV_NAME"
-conda create -y -n $ENV_NAME python=3.10
+# echo "Creating Conda environment: $ENV_NAME"
+# conda create -y -n $ENV_NAME python=3.10
 conda activate $ENV_NAME
 
 # 3. Install Python dependencies (as specified in README)
 echo "Installing pip dependencies..."
-pip install --upgrade pip
+pip install protobuf
 
 # Core dependencies (PyTorch for CUDA 12.4)
 pip install torch torchvision --index-url https://download.pytorch.org/whl/cu124
@@ -56,3 +56,4 @@ fi
 
 echo ""
 echo "Setup complete! You can now submit the job using: qsub run_benchmark.pbs"
+qsub run_benchmark.pbs

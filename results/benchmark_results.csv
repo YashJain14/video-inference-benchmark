@@ -1,0 +1,57 @@
+pipeline_name,run_id,decode_s,preprocess_s,inference_s,postprocess_s,total_s,frames_processed,fps,error
+OpenCV CPU,0,25.282375242561102,0.0407519843429327,1.0291317887604237,0.00015598349273204803,26.35250274837017,17620,668.6271952325192,
+OpenCV CPU,1,17.35003694333136,0.04742329940199852,0.018002495169639587,0.00015074200928211212,17.415692545473576,17620,1011.7312276840536,
+OpenCV CPU,2,17.378561932593584,0.04244169592857361,0.018375428393483162,0.00015839748084545135,17.439617225900292,17620,1010.3432759884096,
+OpenCV CPU,3,17.517115268856287,0.04543320834636688,0.017772139981389046,0.0001592785120010376,17.580565763637424,17620,1002.2430584369554,
+OpenCV CPU,4,17.247214457020164,0.04050339758396149,0.013832410797476768,0.00025511719286441803,17.301884848624468,17620,1018.3861558528881,
+OpenCV CPU,5,17.257667634636164,0.039108872413635254,0.013368574902415276,0.00016325712203979492,17.3103863671422,17620,1017.8860035987119,
+OpenCV CPU,6,17.255806913599372,0.04336327686905861,0.018504519015550613,0.00016264617443084717,17.3179169613868,17620,1017.4433818620764,
+OpenCV CPU,7,17.173437433317304,0.04035492055118084,0.017330991104245186,0.00015824660658836365,17.231364592909813,17620,1022.5539541569505,
+OpenCV CPU,8,17.378207651898265,0.0441029854118824,0.018100235611200333,0.0001592598855495453,17.440651467069983,17620,1010.283362021691,
+OpenCV CPU,9,17.22143812663853,0.043719299137592316,0.013338064774870872,0.0001621246337890625,17.27873665653169,17620,1019.7504800409876,
+FFmpeg + DALI,0,0.0,0.0,0.0,0.0,0.0,0,0.0,"torch.Tensor inputs should be BCHW i.e. shape(1, 3, 640, 640) divisible by stride 32. Input shape(16, 16, 3, 640, 640) is incompatible."
+FFmpeg + DALI,1,0.0,0.0,0.0,0.0,0.0,0,0.0,"torch.Tensor inputs should be BCHW i.e. shape(1, 3, 640, 640) divisible by stride 32. Input shape(16, 16, 3, 640, 640) is incompatible."
+FFmpeg + DALI,2,0.0,0.0,0.0,0.0,0.0,0,0.0,"torch.Tensor inputs should be BCHW i.e. shape(1, 3, 640, 640) divisible by stride 32. Input shape(16, 16, 3, 640, 640) is incompatible."
+FFmpeg + DALI,3,0.0,0.0,0.0,0.0,0.0,0,0.0,"torch.Tensor inputs should be BCHW i.e. shape(1, 3, 640, 640) divisible by stride 32. Input shape(16, 16, 3, 640, 640) is incompatible."
+FFmpeg + DALI,4,0.0,0.0,0.0,0.0,0.0,0,0.0,"torch.Tensor inputs should be BCHW i.e. shape(1, 3, 640, 640) divisible by stride 32. Input shape(16, 16, 3, 640, 640) is incompatible."
+FFmpeg + DALI,5,0.0,0.0,0.0,0.0,0.0,0,0.0,"torch.Tensor inputs should be BCHW i.e. shape(1, 3, 640, 640) divisible by stride 32. Input shape(16, 16, 3, 640, 640) is incompatible."
+FFmpeg + DALI,6,0.0,0.0,0.0,0.0,0.0,0,0.0,"torch.Tensor inputs should be BCHW i.e. shape(1, 3, 640, 640) divisible by stride 32. Input shape(16, 16, 3, 640, 640) is incompatible."
+FFmpeg + DALI,7,0.0,0.0,0.0,0.0,0.0,0,0.0,"torch.Tensor inputs should be BCHW i.e. shape(1, 3, 640, 640) divisible by stride 32. Input shape(16, 16, 3, 640, 640) is incompatible."
+FFmpeg + DALI,8,0.0,0.0,0.0,0.0,0.0,0,0.0,"torch.Tensor inputs should be BCHW i.e. shape(1, 3, 640, 640) divisible by stride 32. Input shape(16, 16, 3, 640, 640) is incompatible."
+FFmpeg + DALI,9,0.0,0.0,0.0,0.0,0.0,0,0.0,"torch.Tensor inputs should be BCHW i.e. shape(1, 3, 640, 640) divisible by stride 32. Input shape(16, 16, 3, 640, 640) is incompatible."
+TorchCodec GPU,0,0.0,0.0,0.0,0.0,0.0,0,0.0,"Could not load libtorchcodec. Likely causes:
+          1. FFmpeg is not properly installed in your environment. We support
+             versions 4, 5, 6 and 7.
+          2. The PyTorch version (2.6.0+cu124) is not compatible with
+             this version of TorchCodec. Refer to the version compatibility
+             table:
+             https://github.com/pytorch/torchcodec?tab=readme-ov-file#installing-torchcodec.
+          3. Another runtime dependency; see exceptions below.
+        The following exceptions were raised as we tried to load libtorchcodec:
+        
+[start of libtorchcodec loading traceback]
+libnppicc.so.12: cannot open shared object file: No such file or directory
+libnppicc.so.12: cannot open shared object file: No such file or directory
+libnppicc.so.12: cannot open shared object file: No such file or directory
+libnppicc.so.12: cannot open shared object file: No such file or directory
+[end of libtorchcodec loading traceback]."
+PyNvVideoCodec 2.1,0,0.0,0.0,0.0,0.0,0.0,0,0.0,'ThreadedDecoder' object is not iterable
+PyNvVideoCodec 2.1,1,0.0,0.0,0.0,0.0,0.0,0,0.0,'ThreadedDecoder' object is not iterable
+PyNvVideoCodec 2.1,2,0.0,0.0,0.0,0.0,0.0,0,0.0,'ThreadedDecoder' object is not iterable
+PyNvVideoCodec 2.1,3,0.0,0.0,0.0,0.0,0.0,0,0.0,'ThreadedDecoder' object is not iterable
+PyNvVideoCodec 2.1,4,0.0,0.0,0.0,0.0,0.0,0,0.0,'ThreadedDecoder' object is not iterable
+PyNvVideoCodec 2.1,5,0.0,0.0,0.0,0.0,0.0,0,0.0,'ThreadedDecoder' object is not iterable
+PyNvVideoCodec 2.1,6,0.0,0.0,0.0,0.0,0.0,0,0.0,'ThreadedDecoder' object is not iterable
+PyNvVideoCodec 2.1,7,0.0,0.0,0.0,0.0,0.0,0,0.0,'ThreadedDecoder' object is not iterable
+PyNvVideoCodec 2.1,8,0.0,0.0,0.0,0.0,0.0,0,0.0,'ThreadedDecoder' object is not iterable
+PyNvVideoCodec 2.1,9,0.0,0.0,0.0,0.0,0.0,0,0.0,'ThreadedDecoder' object is not iterable
+PyNvVideoCodec + CV-CUDA,0,0.0,0.0,0.0,0.0,0.0,0,0.0,ThreadedDecoder.__init__() missing 1 required positional argument: 'buffer_size'
+PyNvVideoCodec + CV-CUDA,1,0.0,0.0,0.0,0.0,0.0,0,0.0,ThreadedDecoder.__init__() missing 1 required positional argument: 'buffer_size'
+PyNvVideoCodec + CV-CUDA,2,0.0,0.0,0.0,0.0,0.0,0,0.0,ThreadedDecoder.__init__() missing 1 required positional argument: 'buffer_size'
+PyNvVideoCodec + CV-CUDA,3,0.0,0.0,0.0,0.0,0.0,0,0.0,ThreadedDecoder.__init__() missing 1 required positional argument: 'buffer_size'
+PyNvVideoCodec + CV-CUDA,4,0.0,0.0,0.0,0.0,0.0,0,0.0,ThreadedDecoder.__init__() missing 1 required positional argument: 'buffer_size'
+PyNvVideoCodec + CV-CUDA,5,0.0,0.0,0.0,0.0,0.0,0,0.0,ThreadedDecoder.__init__() missing 1 required positional argument: 'buffer_size'
+PyNvVideoCodec + CV-CUDA,6,0.0,0.0,0.0,0.0,0.0,0,0.0,ThreadedDecoder.__init__() missing 1 required positional argument: 'buffer_size'
+PyNvVideoCodec + CV-CUDA,7,0.0,0.0,0.0,0.0,0.0,0,0.0,ThreadedDecoder.__init__() missing 1 required positional argument: 'buffer_size'
+PyNvVideoCodec + CV-CUDA,8,0.0,0.0,0.0,0.0,0.0,0,0.0,ThreadedDecoder.__init__() missing 1 required positional argument: 'buffer_size'
+PyNvVideoCodec + CV-CUDA,9,0.0,0.0,0.0,0.0,0.0,0,0.0,ThreadedDecoder.__init__() missing 1 required positional argument: 'buffer_size'

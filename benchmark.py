@@ -193,7 +193,9 @@ class OpenCVCPUPipeline(BasePipeline):
                     tensor  = torch.from_numpy(rgb).float().div(255.0)
                     tensor  = tensor.permute(2, 0, 1)
                     batch.append(tensor)
-                batch_tensor = torch.stack(batch)
+                batch_tensor = torch.stack(batch).to(cfg.device)
+                if cfg.fp16:
+                    batch_tensor = batch_tensor.half()
             t.preprocess_s = tp.elapsed
 
             # ── inference ───────────────────────────
@@ -252,9 +254,10 @@ class FFmpegDALIPipeline(BasePipeline):
                 image_type=self._dali.types.RGB,
                 dtype=self._dali.types.UINT8,
                 name="Reader",
+                device="gpu",
             )
             frames = fn.resize(
-                frames.gpu(),
+                frames,
                 resize_x=cfg.input_size[0],
                 resize_y=cfg.input_size[1],
             )
@@ -396,6 +399,7 @@ class PyNvVideoCodecPipeline(BasePipeline):
                     cfg.video_path,
                     gpu_id=0,
                     output_color_type=self._OutputColorType.RGBP,  # CHW, ideal for PyTorch
+                    buffer_size=cfg.batch_size * 2,
                 )
                 frames = []
                 for i, frame in enumerate(decoder):

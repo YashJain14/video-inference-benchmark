@@ -1,6 +1,5 @@
 #!/bin/bash
 #PBS -N video_inference_benchmark
-#PBS -q gpu
 #PBS -l select=1:ncpus=8:ngpus=1:mem=32gb
 #PBS -l walltime=01:00:00
 #PBS -j oe
