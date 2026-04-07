@@ -1,0 +1,48 @@
+#!/bin/bash
+#PBS -N video_inference_benchmark
+#PBS -q gpu
+#PBS -l select=1:ncpus=8:ngpus=1:mem=32gb
+#PBS -l walltime=01:00:00
+#PBS -j oe
+#PBS -o benchmark_output.log
+
+# ---------------------------------------------------------------------------
+# NSCC PBS Job Script for Video Inference Benchmark
+# Execute this on the COMPUTE NODE via qsub
+# ---------------------------------------------------------------------------
+
+cd $PBS_O_WORKDIR
+
+echo "Starting job on $(hostname) at $(date)"
+
+# 1. Conda Setup (Activate the environment created on login node)
+CONDA_DIR="$HOME/miniconda3"
+source "$CONDA_DIR/etc/profile.d/conda.sh"
+conda activate video_benchmark_env
+unset PYTHONPATH
+unset PYTHONHOME
+export PATH="$HOME/miniconda3/envs/video_benchmark_env/bin:$PATH"
+
+echo "Python:  $(python3 --version)"
+echo "PyTorch: $(python3 -c 'import torch; print(torch.__version__)' 2>/dev/null || echo 'not found')"
+echo ""
+
+# 2. Files
+MODEL_FILE="yolov8n.pt"
+VIDEO_FILE="ToS-4k-1920.mov"
+
+if [ ! -f "$VIDEO_FILE" ] || [ ! -f "$MODEL_FILE" ]; then
+    echo "Error: Missing video or model file. Did you run setup_env.sh on the login node?"
+    exit 1
+fi
+
+# 3. Run the Benchmark
+echo "Running the benchmark..."
+python benchmark.py \
+  --video "$VIDEO_FILE" \
+  --model "$MODEL_FILE" \
+  --batch 16 \
+  --runs 10 \
+  --warmup 3
+
+echo "Job completed at $(date)"
