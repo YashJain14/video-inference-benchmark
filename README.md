@@ -5,7 +5,7 @@ configurations end-to-end across decode → preprocess → inference → postpro
 NVIDIA data centre GPUs.
 
 **Hardware:** NVIDIA A100-SXM4-40GB · CUDA 12.4 · PyTorch 2.6  
-**Results:** [Blog post](../blog.html)
+**Results:** [Blog post](https://yashjain14.github.io/blogs/pynvvideocodec-vs-dali-vs-opencv-benchmark.html)
 
 ---
 
