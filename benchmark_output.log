@@ -1,0 +1,71 @@
+Starting job on x1000c1s1b0n0 at Tue Apr  7 14:48:08 +08 2026
+GPU:     NVIDIA A100-SXM4-40GB, 40960 MiB, 550.163.01
+Python:  Python 3.10.20
+PyTorch: 2.6.0+cu124
+Running the benchmark...
+
+Video Inference Pipeline Benchmark
+  Video     : ToS-4k-1920.mov
+  Model     : yolov8n.pt
+  Batch     : 16
+  Input     : (640, 640)
+  Device    : cuda:0
+  FP16      : True
+  Pipelines : ['opencv_cpu', 'ffmpeg_dali', 'pynvvideocodec', 'pynv_cvcuda']
+
+────────────────────────────────────────────────────────────
+  Pipeline: OpenCV CPU
+────────────────────────────────────────────────────────────
+  [setup] OK
+  [warmup] 3 runs... done
+  [bench]  10 runs... 1 2 3 4 5 6 7 8 9 10 [/opt/dali/dali/operators/video/legacy/reader/video_loader.h:162] ``file_list_include_preceding_frame`` uses the default value False. In future releases, the default value will be changed to True.
+
+  [teardown] OK
+
+────────────────────────────────────────────────────────────
+  Pipeline: FFmpeg + DALI
+────────────────────────────────────────────────────────────
+  [setup] OK
+  [warmup] 3 runs... [/opt/dali/dali/operators/image/crop/new_crop_mirror_normalize.cu:250] using CropMirrorNormalize legacy implementation
+done
+  [bench]  10 runs... 1 2 3 4 5 6 7 8 9 10 
+  [teardown] OK
+
+────────────────────────────────────────────────────────────
+  Pipeline: PyNvVideoCodec 2.1
+────────────────────────────────────────────────────────────
+  [setup] OK
+  [warmup] 3 runs... done
+  [bench]  10 runs... 1 2 3 4 5 6 7 8 9 10 
+  [teardown] OK
+
+────────────────────────────────────────────────────────────
+  Pipeline: PyNvVideoCodec + CV-CUDA
+────────────────────────────────────────────────────────────
+  [setup] OK
+  [warmup] 3 runs... done
+  [bench]  10 runs... 1 2 3 4 5 6 7 8 9 10 
+  [teardown] OK
+
+  Results saved → /home/users/ntu/yash012/video-inference-benchmark/results/benchmark_results.csv
+
+────────────────────────────────────────────────────────────
+  Pipeline                         Avg FPS  Avg Total (s)
+────────────────────────────────────────────────────────────
+  OpenCV CPU                        1042.1         16.908
+  FFmpeg + DALI                        6.4          2.878
+  PyNvVideoCodec 2.1                  57.4          0.279
+  PyNvVideoCodec + CV-CUDA            55.2          0.292
+────────────────────────────────────────────────────────────
+
+────────────────────────────────────────────────────────────
+  Generating charts from /home/users/ntu/yash012/video-inference-benchmark/results/benchmark_results.csv
+────────────────────────────────────────────────────────────
+  Chart saved → /home/users/ntu/yash012/video-inference-benchmark/charts/01_fps_comparison.png
+  Chart saved → /home/users/ntu/yash012/video-inference-benchmark/charts/02_stage_breakdown.png
+  Chart saved → /home/users/ntu/yash012/video-inference-benchmark/charts/03_speedup_waterfall.png
+  Chart saved → /home/users/ntu/yash012/video-inference-benchmark/charts/04_latency_distribution.png
+  Chart saved → /home/users/ntu/yash012/video-inference-benchmark/charts/05_decode_analysis.png
+
+  All charts saved to /home/users/ntu/yash012/video-inference-benchmark/charts
+Job completed at Tue Apr  7 14:53:13 +08 2026
