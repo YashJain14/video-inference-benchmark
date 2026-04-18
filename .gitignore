@@ -11,3 +11,4 @@ benchmark_env/
 .venv/
 .DS_Store
 
+CLAUDE.md
